@@ -6,10 +6,12 @@
 
 mod models;
 mod responses;
+mod synthesizer;
 
 use models::*;
 use responses::*;
 use std::{collections::HashMap, sync::Arc};
+use synthesizer::Synthesizer;
 use teloxide::{prelude::*, utils::command::BotCommands};
 use tokio::sync::Mutex;
 
@@ -125,6 +127,7 @@ async fn handle_message(bot: Bot, msg: Message, user_states: UserStates) -> Resp
         let mut states = user_states.lock().await;
 
         if let Some(state) = states.get_mut(&user_id) {
+            let synthesizer = Synthesizer::new(state.clone());
             if state.theme_description.is_none() {
                 state.theme_description = Some(text.to_string());
                 bot.send_message(
@@ -134,6 +137,8 @@ async fn handle_message(bot: Bot, msg: Message, user_states: UserStates) -> Resp
                         text)
                 ).await?;
             }
+
+            let _ = synthesizer.synthesize().await;
         }
     }
     Ok(())
