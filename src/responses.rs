@@ -8,20 +8,20 @@
 pub const WELCOME_MESSAGE: &str = "Welcome to Theme Father Bot! 🎨\n\
     I can help you create Telegram themes for different platforms.\n\n\
     Available commands:\n\
-    /createIosTheme     - Create theme for iOS\n\
+    /createIosTheme - Create theme for iOS\n\
     /createAndroidTheme - Create theme for Android\n\
-    /createMacosTheme   - Create theme for macOS\n\
+    /createMacosTheme - Create theme for macOS\n\
     /createWindowsTheme - Create theme for Windows\n\
-    /reset              - Reset current theme creation process";
+    /reset - Reset current theme creation process";
 
 /// Message shown when user resets their theme creation process
 pub const RESET_MESSAGE: &str = "Theme creation process has been reset.\n\n\
     Available commands:\n\
-    /createIosTheme     - Create theme for iOS\n\
+    /createIosTheme - Create theme for iOS\n\
     /createAndroidTheme - Create theme for Android\n\
-    /createMacosTheme   - Create theme for macOS\n\
+    /createMacosTheme - Create theme for macOS\n\
     /createWindowsTheme - Create theme for Windows\n\
-    /reset              - Reset current theme creation process";
+    /reset - Reset current theme creation process";
 
 /// Prompt shown when user starts iOS theme creation
 pub const IOS_PROMPT: &str =
