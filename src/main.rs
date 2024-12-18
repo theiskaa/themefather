@@ -1,6 +1,12 @@
-mod constants;
+//! Theme Father Bot - A Telegram bot for creating themes across different platforms
+//!
+//! This bot allows users to create custom themes for various platforms including iOS,
+//! Android, macOS and Windows. Users can describe their desired theme in natural language
+//! and the bot will process their request.
 
-use constants::*;
+mod responses;
+
+use responses::*;
 use std::collections::HashMap;
 use std::sync::Arc;
 use teloxide::{prelude::*, utils::command::BotCommands};

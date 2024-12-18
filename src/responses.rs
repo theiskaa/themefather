@@ -1,7 +1,8 @@
-//! Constants module for the Theme Father Bot
+//! Responses module for the Theme Father Bot
 //!
-//! This module contains all the constant string messages used throughout the bot,
-//! including welcome messages, prompts for different platforms, and other static text.
+//! This module contains constant string messages used by the bot for user interactions,
+//! including welcome messages, platform-specific theme creation prompts, and command help text.
+//! These messages provide a consistent user experience across the bot's interface.
 
 /// Welcome message shown when user starts the bot, listing all available commands
 pub const WELCOME_MESSAGE: &str = "Welcome to Theme Father Bot! 🎨\n\
