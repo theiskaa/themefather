@@ -4,11 +4,12 @@
 //! Android, macOS and Windows. Users can describe their desired theme in natural language
 //! and the bot will process their request.
 
+mod models;
 mod responses;
 
+use models::*;
 use responses::*;
-use std::collections::HashMap;
-use std::sync::Arc;
+use std::{collections::HashMap, sync::Arc};
 use teloxide::{prelude::*, utils::command::BotCommands};
 use tokio::sync::Mutex;
 
@@ -29,21 +30,13 @@ enum Command {
     Reset,
 }
 
-#[derive(Clone, Default)]
-struct UserState {
-    platform: Option<String>,
-    theme_description: Option<String>,
-}
-
-type UserStates = Arc<Mutex<HashMap<UserId, UserState>>>;
-
 #[tokio::main]
 async fn main() {
     pretty_env_logger::init();
     log::info!("Starting Theme Father Bot");
 
     let bot = Bot::from_env();
-    let user_states: Arc<Mutex<HashMap<UserId, UserState>>> = Arc::new(Mutex::new(HashMap::new()));
+    let user_states: UserStates = Arc::new(Mutex::new(HashMap::new()));
 
     let handler = Update::filter_message()
         .branch(
