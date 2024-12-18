@@ -1,3 +1,6 @@
+mod constants;
+
+use constants::*;
 use std::collections::HashMap;
 use std::sync::Arc;
 use teloxide::{prelude::*, utils::command::BotCommands};
@@ -63,18 +66,7 @@ async fn handle_command(
     match cmd {
         Command::Start => {
             user_states.lock().await.remove(&user_id);
-            bot.send_message(
-                msg.chat.id,
-                "Welcome to Theme Father Bot! 🎨\n\
-                I can help you create Telegram themes for different platforms.\n\n\
-                Available commands:\n\
-                /createIosTheme - Create theme for iOS\n\
-                /createAndroidTheme - Create theme for Android\n\
-                /createMacosTheme - Create theme for macOS\n\
-                /createWindowsTheme - Create theme for Windows\n\
-                /reset - Reset current theme creation process",
-            )
-            .await?;
+            bot.send_message(msg.chat.id, WELCOME_MESSAGE).await?;
         }
         Command::CreateIosTheme => {
             let mut states = user_states.lock().await;
@@ -85,10 +77,7 @@ async fn handle_command(
                     theme_description: None,
                 },
             );
-            bot.send_message(
-                msg.chat.id,
-                "Starting drawing the theme for iOS! Please describe how you want your theme to look:"
-            ).await?;
+            bot.send_message(msg.chat.id, IOS_PROMPT).await?;
         }
         Command::CreateAndroidTheme => {
             let mut states = user_states.lock().await;
@@ -99,10 +88,7 @@ async fn handle_command(
                     theme_description: None,
                 },
             );
-            bot.send_message(
-                msg.chat.id,
-                "Starting drawing the theme for Android! Please describe how you want your theme to look:"
-            ).await?;
+            bot.send_message(msg.chat.id, ANDROID_PROMPT).await?;
         }
         Command::CreateMacosTheme => {
             let mut states = user_states.lock().await;
@@ -113,10 +99,7 @@ async fn handle_command(
                     theme_description: None,
                 },
             );
-            bot.send_message(
-                msg.chat.id,
-                "Starting drawing the theme for macOS! Please describe how you want your theme to look:"
-            ).await?;
+            bot.send_message(msg.chat.id, MACOS_PROMPT).await?;
         }
         Command::CreateWindowsTheme => {
             let mut states = user_states.lock().await;
@@ -127,24 +110,11 @@ async fn handle_command(
                     theme_description: None,
                 },
             );
-            bot.send_message(
-                msg.chat.id,
-                "Starting drawing the theme for Windows! Please describe how you want your theme to look:"
-            ).await?;
+            bot.send_message(msg.chat.id, WINDOWS_PROMPT).await?;
         }
         Command::Reset => {
             user_states.lock().await.remove(&user_id);
-            bot.send_message(
-                msg.chat.id,
-                "Theme creation process has been reset.\n\n\
-                Available commands:\n\
-                /createIosTheme - Create theme for iOS\n\
-                /createAndroidTheme - Create theme for Android\n\
-                /createMacosTheme - Create theme for macOS\n\
-                /createWindowsTheme - Create theme for Windows\n\
-                /reset - Reset current theme creation process",
-            )
-            .await?;
+            bot.send_message(msg.chat.id, RESET_MESSAGE).await?;
         }
     }
     Ok(())
@@ -164,8 +134,6 @@ async fn handle_message(bot: Bot, msg: Message, user_states: UserStates) -> Resp
                         state.platform.as_ref().unwrap(),
                         text)
                 ).await?;
-                bot.send_message(msg.chat.id, "TODO: implement theme creation logic")
-                    .await?;
             }
         }
     }
