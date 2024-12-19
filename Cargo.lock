@@ -1532,10 +1532,14 @@ dependencies = [
 name = "themefather"
 version = "0.1.0"
 dependencies = [
+ "futures-util",
  "log",
  "once_cell",
  "pretty_env_logger",
+ "reqwest",
  "rust-embed",
+ "serde",
+ "serde_json",
  "teloxide",
  "tokio",
 ]
