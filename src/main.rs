@@ -4,7 +4,9 @@
 //! Android, macOS and Windows. Users can describe their desired theme in natural language
 //! and the bot will process their request.
 
+mod assets;
 mod models;
+mod openai_client;
 mod responses;
 mod synthesizer;
 
@@ -127,17 +129,15 @@ async fn handle_message(bot: Bot, msg: Message, user_states: UserStates) -> Resp
         let mut states = user_states.lock().await;
 
         if let Some(state) = states.get_mut(&user_id) {
-            let synthesizer = Synthesizer::new(state.clone());
             if state.theme_description.is_none() {
                 state.theme_description = Some(text.to_string());
                 bot.send_message(
                     msg.chat.id,
-                    format!("Got your description! I'm now creating a {} theme based on: \"{}\"\n\nProcessing...",
-                        state.platform.as_ref().unwrap(),
-                        text)
+                    format!("Got your description! I'm now creating a {} theme based on your prompt \n\nProcessing, this may take a few minutes...", state.platform.as_ref().unwrap())
                 ).await?;
             }
 
+            let synthesizer = Synthesizer::new(state.clone());
             let _ = synthesizer.synthesize().await;
         }
     }
