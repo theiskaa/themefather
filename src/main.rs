@@ -6,14 +6,13 @@
 
 mod assets;
 mod models;
-mod openai_client;
-mod responses;
+mod prompts;
 mod synthesizer;
 
 use models::*;
-use responses::*;
+use prompts::*;
 use std::{collections::HashMap, sync::Arc};
-use synthesizer::Synthesizer;
+use synthesizer::ThemeSynthesizer;
 use teloxide::{prelude::*, utils::command::BotCommands};
 use tokio::sync::Mutex;
 
@@ -137,8 +136,20 @@ async fn handle_message(bot: Bot, msg: Message, user_states: UserStates) -> Resp
                 ).await?;
             }
 
-            let synthesizer = Synthesizer::new(state.clone());
-            let _ = synthesizer.synthesize().await;
+            let output = match ThemeSynthesizer::synthesize(
+                state.platform.as_ref().unwrap(),
+                state.theme_description.as_ref().unwrap(),
+            )
+            .await
+            {
+                Ok(output) => output,
+                Err(e) => {
+                    log::error!("Error synthesizing theme: {}", e);
+                    return Ok(());
+                }
+            };
+            println!("{}", output);
+            bot.send_message(msg.chat.id, output).await?;
         }
     }
     Ok(())
